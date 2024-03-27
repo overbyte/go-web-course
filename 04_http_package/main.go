@@ -8,7 +8,7 @@ import (
 
 type mux int
 
-func (m mux) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+func (m mux) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	err := req.ParseForm()
 	if err != nil {
 		log.Fatalln(err)
@@ -16,7 +16,7 @@ func (m mux) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 	// req.Form returns a series of key,value pairs where key is a string and
 	// value is a slice of string 
-	tpl.ExecuteTemplate(w, "index.gohtml", req.Form)
+	tpl.ExecuteTemplate(res, "index.gohtml", req.Form)
 	// if we don't want to include the querystring in the form action, we can
 	// use req.PostForm which only includes the POST, PUT or PATCH values
 }
