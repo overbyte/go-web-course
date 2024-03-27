@@ -9,6 +9,9 @@ import (
 type mux int
 
 func (m mux) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Context-Type", "text/html; charset=utf-8")
+	res.Header().Set("Allandt-Custom", "All your base are belong to us")
+
 	err := req.ParseForm()
 	if err != nil {
 		log.Fatalln(err)
