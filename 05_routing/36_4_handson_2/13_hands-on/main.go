@@ -32,6 +32,8 @@ func handle(conn net.Conn) {
 
 	s := bufio.NewScanner(conn)
 	i := 0
+	m := ""
+	u := ""
 	for s.Scan() {
 		ln := s.Text()
 		fmt.Println(ln)
@@ -42,16 +44,19 @@ func handle(conn net.Conn) {
 		// we're in the first line of the header
 		if i == 0 {
 			f := strings.Fields(ln)	
-			method := f[0]
-			uri := f[1]
-			fmt.Println("Method:", method)
-			fmt.Println("URI:", uri)
+			m = f[0]
+			u = f[1]
+			fmt.Println("Method:", m)
+			fmt.Println("URI:", u)
 		}
 
 		i++
 	}
 
-	body := "I see you connected"
+	b := `I see you connected
+method: %s
+uri: %s`
+	body := fmt.Sprintf(b, m, u)
 	io.WriteString(conn, "HTTP/1.1 200 OK\r\n")
 	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
 	fmt.Fprint(conn, "Content-Type: text/plain\r\n")
