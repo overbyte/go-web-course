@@ -53,11 +53,22 @@ func handle(conn net.Conn) {
 		i++
 	}
 
-	b := `<h1>Holy cow this is low level</h1>
-<ul>
-<li>method: %s</li>
-<li>uri: %s</li>
-</ul>`
+	b := `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Working HTML</title>
+</head>
+
+<body>
+	<h1>Holy cow this is low level</h1>
+	<ul>
+		<li>method: %s</li>
+		<li>uri: %s</li>
+	</ul>
+</body>
+</html>`
 	body := fmt.Sprintf(b, m, u)
 	io.WriteString(conn, "HTTP/1.1 200 OK\r\n")
 	fmt.Fprintf(conn, "Content-Length: %d\r\n", len(body))
